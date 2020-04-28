@@ -125,15 +125,8 @@ nav a sup {
 
 .content {
     width: 100% !important;
-    /* min-height: calc(100%-40px); */
-    /* background-color: #ccc; */
 }
 
-.content-inner {
-    /* background-color: #333; */
-    /* min-height: 300px; */
-    /* height: 25%; */
-}
 .banner {
     background: url(https://www.asus.com/media/TW/banners/ac9lr4qldzjpqj3u/ac9lr4qldzjpqj3u-0_0_desktop.jpg) no-repeat center;
     display: block;
@@ -142,14 +135,11 @@ nav a sup {
     padding-top: 36%;
 }
 .product-1 a{
-    /* background: url(https://www.asus.com/media/TW/banners/clsscpddffwt5cov/clsscpddffwt5cov-0_0.png) no-repeat center; */
     background-color: #757575;
 }
 .product-2 a{
-    /* background: url(https://www.asus.com/media/TW/banners/ac9lr4qldzjpqj3u/ac9lr4qldzjpqj3u-0_0_desktop.jpg) no-repeat center; */
     background-color: #868686;
 }.product-3 a{
-    /* background: url(https://www.asus.com/media/TW/banners/ac9lr4qldzjpqj3u/ac9lr4qldzjpqj3u-0_0_desktop.jpg) no-repeat center; */
     background-color: #979797;
 }
 .product-1 a,.product-2 a,.product-3 a{
@@ -240,9 +230,9 @@ nav a sup {
         height: 40px;
         left: 10px;
         top: 20px;
-        margin-top: -18px;
+        margin-top: -20px;
     }
-    .menu-icon, .menu-icon::before, .menu-icon::after {
+    .menu-icon::before, .menu-icon::after {
         content: "";
         cursor: pointer;
         background: #494949;
@@ -251,7 +241,18 @@ nav a sup {
         left: 50%;
         top: 50%;
         transition: all 500ms ease-in-out 0s;
-        width: 20px;
+        width: 21px;
+    }
+    .menu-icon{
+        content: "";
+        cursor: pointer;
+        background: #494949;
+        height: 3px;
+        position: absolute;
+        left: 50%;
+        top: 55%;
+        transition: all 500ms ease-in-out 0s;
+        width: 21px;
     }
     .menu-icon {
         transform: translate3d(-50%, -4px, 0px);
@@ -270,36 +271,14 @@ nav a sup {
         padding-top: 35%;
         float: left;
     }
-    .product-1,.product-2,.product-3{
-        /* padding-top: 3px;
-        padding-bottom: 3px;
-        vertical-align: middle; */
-    }
-    /* .product:before {
-        content: "";
-        display: inline-block;
-        vertical-align: middle;
-        width: 0;
-        height: 100%;
-    } */
 
     /* 顯示選單 */
     .show-menu .container {
         transform: translateX(80%);
         position: fixed;
-        /* top: 0;
-        bottom: 0;
-        overflow-y: scroll; */
-        /* overflow-x:hidden; */
-        /* position: relative; */
-        /* width: 100%; */
-        /* position: fixed; */
-        /* transition: all 0.4s cubic-bezier(0.8, 0.395, 0.06, 0.81); */
     }
     .show-menu .content{
         position: fixed;
-        /* overflow-x:hidden;
-        overflow-y: scroll; */
     }
     .show-menu nav {
         transform: translateX(0);
@@ -310,8 +289,7 @@ nav a sup {
     .show-menu .menu-toggle {
         position: absolute;
         left: 10px;
-        /* top: 50%; */
-        margin-top: -18px;
+        margin-top: -20px;
         width: 40px;
         height: 40px;
     }
