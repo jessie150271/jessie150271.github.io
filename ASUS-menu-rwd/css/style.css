@@ -86,10 +86,6 @@ nav .login li {
 
 nav a {
     color: black;
-    /* padding: 0 15px; */
-    /* margin: 0; */
-    /* display: block; */
-    /* transition: all 2s; */
     display: table-cell;
     vertical-align: middle;
 }
