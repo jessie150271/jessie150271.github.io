@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/
+jquery.min.js"></script>
+    <script>
+        $(() => {
+            let flag = 0;
+            $(".menu-toggle").click(() => {
+                const body = $("body");
+                flag ? body.removeClass("show-menu") : body.addClass("show-menu");
+                flag = !flag;
+            });
+        })
+    </script>
+</head>
+
+<body>
+    <div class="full-width">
+        <div class="container">
+            <!-- header -->
+            <div class="header">
+                <div class="header-inner">
+                    <span class="menu-toggle">
+                        <em class="menu-icon"></em>
+                    </span>
+                    <a href="https://www.asus.com/tw/" target="_blank" title="ASUS 台灣" class="logo"></a>
+                    <a href="" title="" class="rws-search"></a>
+                    <nav class="">
+                        <div class="menu">
+                            <ul>
+                                <li><a href="#">產品</a></li>
+                                <li><a href="#">熱門活動</a></li>
+                                <li><a href="#">商用電腦</a></li>
+                                <li><a href="#">ProArt<sup><small>NEW</small></sup></a></li>
+                                <li><a href="#">服務&社群</a></li>
+                                <li><a href="#">商店</a></li>
+                            </ul>
+                        </div>
+                        <div class="login">
+                            <!-- <em class="icon-search"></em>-->
+                            <ul>
+                                <li class="search"><a href="#"></a></li>
+                                <li><a href="#">登入</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <!-- content -->
+            <div class="content">
+                <div class="content-inner">
+                    <section class="banner">
+                        <a class="section-banner" href="https://www.asus.com/tw/ProArt/" target="_blank"></a>
+                    </section>
+                    <section class="product">
+                        <div class="product-1">
+                            <a class="section-banner" href="https://www.asus.com/tw/Keyboards-Mice/ROG-Chakram/" target="_blank"></a>
+                        </div>
+                        <div class="product-2">
+                            <a class="section-banner" href="https://www.asus.com/tw/Laptops/ZenBook-Duo-UX481FL/" target="_blank"></a>
+                        </div>
+                        <div class="product-3">
+                            <a class="section-banner" href="https://www.asus.com/tw/Networking/ZenWiFi-AC-CT8/" target="_blank"></a>
+                        </div>
+                    </section>
+                    <section class="banner-block">
+                        <a class="banner-block" href="https://www.asus.com/tw/ProArt/" target="_blank"></a>
+                    </section>
+                </div>
+            </div>
+            <!-- footer -->
+
+        </div>
+
+    </div>
+
+
+
+</body>
+
+</html>

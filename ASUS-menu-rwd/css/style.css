@@ -1,0 +1,348 @@
+* {
+    box-sizing: border-box;
+    min-height: 0;
+    min-width: 0;
+}
+
+html, body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, img, nav, div, span {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.full-width {
+    width: 100%;
+}
+body{
+    background-color: #ccc;
+}
+.container {
+    width: 100%;
+    margin: 0 auto;
+}
+.header{    
+    width: 100%;
+    height: 60px;
+    background-color: white;
+}
+body {
+    font-family: Arial, "微軟正黑體", Helvetica, sans-serif;
+}
+a {
+    text-decoration: none;
+}
+nav {
+    width: 100%;
+    height: 60px;
+    background-color: white;
+}
+
+nav:after {
+    content: "";
+    clear: both;
+    display: block;
+    width: 100%;
+}
+
+nav .menu {
+    float: left;
+    display: block;
+    position: relative;
+}
+
+nav .login {
+    float: right;
+    display: block;
+    /* position: absolute;
+    top: 61px;
+    max-width: 900px;
+    max-height: 630px; */
+}
+
+nav ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+nav .menu li {
+    float: left;
+    position: relative;
+    display: table;
+    vertical-align: baseline;
+    margin-left: 50px;
+    line-height: 60px;
+    border-bottom: 3px solid transparent;
+}
+
+nav .login li {
+    float: right;
+    position: relative;
+    display: table;
+    margin-right: 10px;
+    line-height: 60px;
+    border-bottom: 3px solid transparent;
+}
+
+nav a {
+    color: black;
+    /* padding: 0 15px; */
+    /* margin: 0; */
+    /* display: block; */
+    /* transition: all 2s; */
+    display: table-cell;
+    vertical-align: middle;
+}
+
+nav a sup {
+    /* 使ProArt水平對齊同行文字 */
+    line-height: 1em;
+}
+
+.logo {
+    float: left;
+    width: 107px;
+    height: 23px;
+    margin-top: 18px;
+    display: block;
+    background: url(http://www.asus.com/media/img/2017/images/n-logo-asus.svg) 0 0 no-repeat;
+}
+
+.search {
+    height: 60px;
+    width: 25px;
+    display: block;
+    float: right;
+    margin-right: 8px;
+    background: url(http://www.asus.com/media/img/2017/images/n-icon-search.svg) no-repeat center;
+}
+
+.menu-toggle {
+    display: none;
+}
+
+/* content */
+
+.content {
+    width: 100% !important;
+    /* min-height: calc(100%-40px); */
+    /* background-color: #ccc; */
+}
+
+.content-inner {
+    /* background-color: #333; */
+    /* min-height: 300px; */
+    /* height: 25%; */
+}
+.banner {
+    background: url(https://www.asus.com/media/TW/banners/ac9lr4qldzjpqj3u/ac9lr4qldzjpqj3u-0_0_desktop.jpg) no-repeat center;
+    display: block;
+    width: 100%;
+    background-size: cover;
+    padding-top: 36%;
+}
+.product-1 a{
+    /* background: url(https://www.asus.com/media/TW/banners/clsscpddffwt5cov/clsscpddffwt5cov-0_0.png) no-repeat center; */
+    background-color: #757575;
+}
+.product-2 a{
+    /* background: url(https://www.asus.com/media/TW/banners/ac9lr4qldzjpqj3u/ac9lr4qldzjpqj3u-0_0_desktop.jpg) no-repeat center; */
+    background-color: #868686;
+}.product-3 a{
+    /* background: url(https://www.asus.com/media/TW/banners/ac9lr4qldzjpqj3u/ac9lr4qldzjpqj3u-0_0_desktop.jpg) no-repeat center; */
+    background-color: #979797;
+}
+.product-1 a,.product-2 a,.product-3 a{
+    display: block;
+    width: calc(100%/3);
+    background-size: cover;
+    padding-top: 12%;
+    float: left;
+}
+
+@media only screen and (max-width: 900px) {
+    .container{
+        transition: all 0.4s cubic-bezier(0.8, 0.395, 0.06, 0.81);
+        position: fixed;
+        /* fixed不會有卷軸出現 */
+    }
+    .header {
+        height: 40px;
+        transition: all 0.4s cubic-bezier(0.8, 0.395, 0.06, 0.81);
+    }
+    .logo {
+        float: none;
+        position: absolute;
+        height: 40px;
+        left: 50%;
+        padding-top: 0px;
+        margin-top: 0px;
+        margin-left: -53px;
+        background-position: center;
+    }
+    nav {
+        padding-top: 60px;
+        position: fixed;
+        width: 80%;
+        left: -80%;
+        height: 1200px;
+        background: #484848;
+    }
+    nav .menu {
+        width: 100%;
+        border-bottom: 1px solid #575757;
+        background: #484848;
+    }
+    nav .menu li {
+        float: none;
+        width: 100%;
+        padding: 0 5%;
+        border-bottom: 1px solid #575757;
+        margin: 0px;
+    }
+    nav .menu li a {
+        color: #fff;
+    }
+    nav .login {
+        float: none;
+        background: #484848;
+    }
+    nav .login li {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        padding-left: 5%;
+        margin: 0px;
+        background: #484848;
+        border-bottom: 1px solid #575757;
+    }
+    nav .login li a {
+        color: #fff;
+    }
+    .search {
+        display: none !important;
+    }
+    .rws-search {
+        height: 40px;
+        width: 25px;
+        display: block;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        margin-right: 8px;
+        background: url(//www.asus.com/media/img/2017/images/n-icon-search.svg) no-repeat center;
+    }
+    .menu-toggle {
+        display: block;
+        cursor: pointer;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        left: 10px;
+        top: 20px;
+        margin-top: -18px;
+    }
+    .menu-icon, .menu-icon::before, .menu-icon::after {
+        content: "";
+        cursor: pointer;
+        background: #494949;
+        height: 3px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transition: all 500ms ease-in-out 0s;
+        width: 20px;
+    }
+    .menu-icon {
+        transform: translate3d(-50%, -4px, 0px);
+    }
+    .menu-icon::before {
+        transform: translate3d(-50%, -8px, 0px);
+    }
+    .menu-icon::after {
+        transform: translate3d(-50%, 5px, 0px);
+    }
+
+    .product-1 a,.product-2 a,.product-3 a{
+        display: block;
+        width: calc(100%/3);
+        background-size: cover;
+        padding-top: 35%;
+        float: left;
+    }
+    .product-1,.product-2,.product-3{
+        /* padding-top: 3px;
+        padding-bottom: 3px;
+        vertical-align: middle; */
+    }
+    /* .product:before {
+        content: "";
+        display: inline-block;
+        vertical-align: middle;
+        width: 0;
+        height: 100%;
+    } */
+
+    /* 顯示選單 */
+    .show-menu .container {
+        transform: translateX(80%);
+        position: fixed;
+        /* top: 0;
+        bottom: 0;
+        overflow-y: scroll; */
+        /* overflow-x:hidden; */
+        /* position: relative; */
+        /* width: 100%; */
+        /* position: fixed; */
+        /* transition: all 0.4s cubic-bezier(0.8, 0.395, 0.06, 0.81); */
+    }
+    .show-menu .content{
+        position: fixed;
+        /* overflow-x:hidden;
+        overflow-y: scroll; */
+    }
+    .show-menu nav {
+        transform: translateX(0);
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+    /* 顯示Ｘ */
+    .show-menu .menu-toggle {
+        position: absolute;
+        left: 10px;
+        /* top: 50%; */
+        margin-top: -18px;
+        width: 40px;
+        height: 40px;
+    }
+    .show-menu .menu-toggle .menu-icon {
+        background: transparent;
+    }
+    .show-menu .menu-toggle .menu-icon::before {
+        top: 0;
+        transform: translateX(-50%) rotate(45deg);
+    }
+    .show-menu .menu-toggle .menu-icon::after {
+        top: 10px;
+        transform: translateX(-50%) translateY(-10px) rotate(-45deg);
+    }
+}
+
+@media only screen and (max-width: 1169px)and (min-width: 901px) {
+    .logo {
+        margin-left: 20px;
+    }
+    nav .menu li {
+        margin-left: 30px;
+    }
+}
+
+@media only screen and (min-width: 1170px) {
+    .header-inner {
+        width: 1150px;
+        margin: auto;
+    }
+    nav .login {
+        min-width: 200px;
+    }
+}
