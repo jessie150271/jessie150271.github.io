@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>DHS數位工坊 - 最佳數位內容解決方案</title>
+    <title>ABC數位工坊 - 最佳數位內容解決方案</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -26,10 +26,10 @@
         <div class="row">
             <div class="col bg-dark text-white text-center logo">
                 <p class="logo-icon">
-                    <i class="fas fa-edit"></i>
+                    <i class="fas fa-pen-nib"></i>
                 </p>
                 <span class="bg-dark d-block m-auto py-3">
-                    <h1 class="mb-4">ＤＨＳ</h1>
+                    <h1 class="mb-4">ＡＢＣ</h1>
                     <h3>數位工坊</h3>
                     <h5>最佳數位內容解決方案</h5>
                 </span>
@@ -180,8 +180,8 @@
                 </div>
             </div>
             <!-- copyright -->
-            <div class="jumbotron jumbotron-fluid mb-5 pt-4 w-100 text-center copyright">
-                &copy;Allrights reserved　|　Design: DHS 2020
+            <div class="jumbotron jumbotron-fluid mb-5 pt-4 w-100 text-center text-white copyright">
+                &copy;Allrights reserved　|　Design: ABC 2020
             </div>
         </section>
     </div>
@@ -221,13 +221,11 @@
             var name = $("#name").val();
             var email = $("#email").val();
             var message = $("#message").val();
-            // window.open("https://docs.google.com/forms/d/e/1FAIpQLScm6oHTnF7qN_TLMgp_Ki3XPY4dzPRjuU7umyZ-qXYMkI0G2w/formResponse?entry.630097993=" + name + "&entry.1391000124=" + email + "&entry.727934787=" + message);
             const regex = RegExp(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/);
             var emailFlag = regex.test(email);
             if (name && email && emailFlag) {
                 $.ajax({
                     type: "post",
-                    // url: "https://docs.google.com/forms/d/e/1FAIpQLScm6oHTnF7qN_TLMgp_Ki3XPY4dzPRjuU7umyZ-qXYMkI0G2w/formResponse?entry.630097993=" + name + "&entry.1391000124=" + email + "&entry.727934787=" + message,
                     url: "https://docs.google.com/forms/d/e/1FAIpQLScm6oHTnF7qN_TLMgp_Ki3XPY4dzPRjuU7umyZ-qXYMkI0G2w/formResponse",
                     data: {
                         "entry.630097993": name,
@@ -235,17 +233,6 @@
                         "entry.727934787": message
                     },
                     dataType: "json",
-                    // success: function (response) {
-                    //     console.log(response);
-                    //     alert('已收到您的訊息，我們將盡快回覆，感謝您！');
-                    //     name = "";
-                    //     email = "";
-                    //     message = "";
-                    // },
-                    // error: function (response) {
-                    //     console.log(response);
-                    //     alert("表單送出異常，請再試一次！");
-                    // }
                 });
                 alert('已收到您的訊息，我們將盡快回覆，感謝您！');
                 $("#name").val("");

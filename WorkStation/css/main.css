@@ -177,6 +177,7 @@ div[class*="intro"] {
     font-size: 10rem;
     transition: 0.5s;
     opacity: 0;
+    z-index: 10;
 }
 .intro-section div[class*="photo"]:hover i {
     opacity: 1;
@@ -198,12 +199,12 @@ div[class*="intro"] {
 .radius {
     display: inline-block;
     border: 1px solid #fff;
-    --size: 40px;
+    --size: 45px;
     width: var(--size);
     height: var(--size);
     border-radius: var(--size);
     line-height: var(--size);
-    font-size: 20px;
+    font-size: 22px;
     margin: 0 3px;
 }
 
