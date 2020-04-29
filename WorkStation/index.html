@@ -190,14 +190,15 @@
     <script>
         $(function () {
             ///
-            /// 自動調整中線高度
+            /// 自動調整中線.bg-line高度
             /// 
 
-            // 頁面載入完成後加入偽元素高度
+            // 頁面載入完成後加入元素高度
             var h = $("body").height();
             var ch = $(".section-contact").height();
-            $('.bg-line').append("<style>.bg-line{ height:" + (h - ch) + "px; }</style>");
-            // 頁面高度改變時重新給予偽元素高度
+            $('.bg-line').height((h - ch) + "px");
+
+            // 頁面高度改變時重新給予元素高度
             // 間隔1秒修正一次
             var timeFlag = true;
             $(window).resize(function () {
@@ -206,8 +207,7 @@
                     setTimeout(() => {
                         h = $("body").height();
                         ch = $(".section-contact").height();
-                        $(".bg-line style").remove();
-                        $('.bg-line').append("<style>.bg-line{ height:" + (h - ch) + "px; }</style>");
+                        $('.bg-line').height((h - ch) + "px");
                         timeFlag = true;
                     }, 1000);
                 }
