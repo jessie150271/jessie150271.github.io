@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>BDO - 交涉力計算機</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- font-awesome -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css' />
+    <!-- accounting.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/accounting.js/0.4.1/accounting.min.js"></script>
+    <!-- lodash.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
+    <!-- axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <!-- Vue.js -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js'></script>
+
+    <style>
+        body {
+            font-family: 'Microsoft Jhenghei';
+            background-color: #1d1d1d;
+            color: #fff;
+        }
+
+        .container-fluid {
+            padding-right: 0px;
+            padding-left: 0px;
+        }
+
+        .row {
+            margin: 0
+        }
+
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+
+        .input-group-text,
+        input {
+            background-color: #1d1d1d !important;
+            color: #fff !important;
+        }
+
+        /* footer置底 */
+        html,
+        body {
+            height: 100%
+        }
+
+        .wrapper {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+        }
+
+        .main {
+            flex: 1;
+        }
+
+        .footer {
+            background-color: #1d1d1d;
+            font-size: 0.8rem;
+            line-height: 1.5rem;
+        }
+
+        /************/
+
+        .btn-wrap {
+            margin: auto;
+        }
+
+        table {
+            transition: all .5;
+        }
+
+        .table-dark {
+            background-color: #1d1d1d;
+        }
+
+        .input-group {
+            /* 超出不換行 */
+            flex-wrap: nowrap;
+            /* 取代form-control */
+            margin-bottom: 1rem;
+        }
+
+        .input-reducing {
+            justify-content: flex-end;
+            flex-grow: 0;
+            padding-left: 27px;
+            padding-right: 3px;
+        }
+
+        .input-isValuePack {
+            justify-content: flex-start;
+            flex-grow: 0;
+            padding-left: 3px;
+            padding-right: 27px;
+        }
+
+        .percentage {
+            position: absolute;
+            top: 7px;
+            right: 10px;
+            z-index: 999;
+        }
+
+        .clear {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            height: 38px;
+            line-height: 38px;
+            padding-right: 8px;
+            font-size: 1.6rem;
+
+            cursor: pointer;
+            z-index: -1;
+            color: transparent;
+        }
+
+        .times:hover .clear {
+            z-index: 999;
+            color: #fff;
+            transition: all .5s;
+        }
+
+        #reducing {
+            padding-left: 0;
+        }
+
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity .3s
+        }
+
+        .fade-enter,
+        .fade-leave-to {
+            opacity: 0
+        }
+
+        .addBtn {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+            padding: 0;
+        }
+
+        .fixBtn {
+            width: 30px;
+            height: 30px;
+            font-size: 10px;
+            padding: 0;
+        }
+
+        .btn-outline-light {
+            border-left: 0px;
+        }
+
+        input:hover,
+        input:focus,
+        .input-isValuePack:hover .label-isValuePack {
+            background-color: #2d2d2d !important;
+            transition: all .4s;
+        }
+
+        .table-responsive {
+        }
+        .custom-table-width{
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="container-fluid wrapper">
+        <div class="main">
+            <!-- new -->
+            <section class="section-new row">
+                <div class="col-12 new-form text-center">
+                    <h1 class="h4 my-3">交涉力計算機</h1>
+                    <div class="row flex-nowrap mx-auto" style="width: 290px; max-width: 95vw;">
+                        <!-- 減少 -->
+                        <div class="col p-0">
+                            <div class="row">
+                                <div class="col input-group input-reducing" data-toggle="tooltip"
+                                    title="交易等級影響的減少數值(%)">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="reducing">減少</label>
+                                    </div>
+                                    <label class="percentage" for="reducing">%</label>
+                                    <input type="number" step="0.01" id="reducing" class="form-control text-center"
+                                        v-model="reducing" style="max-width: 80px; min-width: 80px;"
+                                        @focus="$event.target.select()">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 禮包 -->
+                        <div class="col p-0">
+                            <div class="row">
+                                <div class="col input-group input-isValuePack" data-toggle="tooltip"
+                                    title="價值禮包減少10%所需交涉力">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="isValuePack">禮包</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <label class="input-group-text label-isValuePack" for="isValuePack">
+                                            <!-- hidden checkbox -->
+                                            <input type="checkbox" id="isValuePack" class="d-none"
+                                                v-model="isValuePack">
+                                            <!-- custom display -->
+                                            <i v-if="isValuePack" class="fas fa-check" style="width: 1rem;"></i>
+                                            <i v-else class="fas fa-times" style="width: 1rem;"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 p-0">
+                            <div class="row mx-auto" style="width: 202px; max-width: 95vw;">
+                                <!-- 目的地 -->
+                                <div class="col-12 input-group justify-content-center">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="destination">目的地</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-light dropdown-toggle" type="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                            style="width: 130px;">{{target.destination}}</button>
+                                        <div class="dropdown-menu" style="min-width: 130px;max-width: 130px;">
+                                            <a v-for="(item, index) in source" :key="index" class="dropdown-item px-4"
+                                                href="javascript: void(0)"
+                                                @click="selectDestination(item,index)">{{item.destination}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 交涉力 -->
+                                <div class="col-12 input-group justify-content-center">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="power">交涉力</label>
+                                    </div>
+                                    <input type="number" id="power" class="form-control text-center"
+                                        v-model="totalReducing" style="max-width: 130px; min-width: 130px;">
+                                </div>
+                                <!-- 次數 -->
+                                <div class="col-12 input-group justify-content-center times">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="times">&nbsp;次&nbsp;數&nbsp;</label>
+                                    </div>
+                                    <!-- 清除次數按鈕 -->
+                                    <div class="clear" @click="target.times=0">&times;</div>
+                                    <input type="number" id="times" class="form-control text-center"
+                                        v-model="target.times" style="max-width: 130px; min-width: 130px;">
+                                </div>
+                                <!-- 次數按鈕 -->
+                                <div class="col-12 d-inline-flex flex-nowrap justify-content-center">
+                                    <button v-for="(num, index) in [...Array(6)].map((x,i) => i + 1)" :key="index"
+                                        @click="add(num)" class="btn rounded-circle btn-outline-secondary text-white"
+                                        style="width: 2.5rem; margin: 2px;">
+                                        <span style="margin-left: -5px;">+{{num}}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 新增按鈕 -->
+                        <div class="col-12 btn-wrap text-center">
+                            <button @click="addTarget"
+                                class="btn rounded-circle btn-outline-primary text-white my-3 addBtn"
+                                data-toggle="tooltip" title="新增目的地">
+                                <i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- table -->
+            <section class="section-table row border-top">
+                <div class="col-12 my-3">
+                    <div class="total text-center">
+                        <span class="h3" :style="totalColor">{{format(totalPower)}}</span>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4 text-center mb-3 table-responsive-sm">
+                    <transition name="fade">
+                        <table v-show="targets.length" class="table table-dark table-hover">
+                            <thead>
+                                <tr class="text-center">
+                                    <th class="col-xs-5 px-0 border-top-0 text-nowrap">目的地</th>
+                                    <th class="col-xs-2 border-top-0 text-nowrap">交涉力</th>
+                                    <th class="col-xs-1 border-top-0 text-nowrap">次數</th>
+                                    <th class="col-xs-3 border-top-0 text-nowrap">總計</th>
+                                    <th class="col-xs-1 text-right border-top-0"><button @click="deleteAll"
+                                            class="btn rounded-circle btn-outline-success text-white fixBtn"
+                                            data-toggle="tooltip" title="重置">
+                                            <i class="fas fa-redo-alt"></i></button></th>
+                                </tr>
+                            </thead>
+                            <tbody name="fade" is="transition-group">
+                                <tr v-for="(item, index) in targets" :key="index" style="font-size: small;">
+                                    <td class="text-nowrap">{{item.destination}}</td>
+                                    <td class="text-nowrap">{{format(item.reducedPower)}}</td>
+                                    <td class="text-nowrap">{{format(item.times)}}</td>
+                                    <td class="text-nowrap">{{format(item.times*item.reducedPower)}}</td>
+                                    <td class="text-right">
+                                        <button @click="deleteTarget(index)"
+                                            class="btn rounded-circle btn-outline-danger text-white fixBtn"
+                                            data-toggle="tooltip" title="刪除此項">
+                                            <i class="fas fa-minus"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </transition>
+                </div>
+            </section>
+        </div>
+        <!-- footer -->
+        <div class="footer jumbotron jumbotron-fluid border-top m-0 p-2 text-center">
+            <a href="https://github.com/jessie150271" target="_blank" class="h1 text-white">
+                <i class="fab fa-github h2"></i></a>
+            <p>&copy;2020 Jessie Huang All Rights Reserved</p>
+            <p>因交易系統小數點進位無法評估，可能與實際數值有正負1的誤差，有需要可自行修正交涉力數值。</p>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                reducing: 12.34,
+                isValuePack: true,
+                target: {
+                    'destination': '',
+                    'reducedPower': '',
+                    'power': '',
+                    'times': 0
+                },
+                targets: [],
+                source: [],
+                dictionary: {}
+            },
+            mounted() {
+                axios.get('https://spreadsheets.google.com/feeds/cells/144CE28gj9di95tqLR4NPVg5cl6O4PqUeyhH0LFNFXSE/1/public/values?alt=json')
+                    .then(response => {
+                        // console.log(response.data.feed.entry);
+                        // console.log(response.data.feed.entry.filter(x => x.gs$cell.col === "1").map(x => x.gs$cell));
+                        // console.log(response.data.feed.entry.filter(x => x.gs$cell.col === "2").map(x => x.gs$cell));
+                        let names = response.data.feed.entry.filter(x => x.gs$cell.col === "1").map(x => x.gs$cell);
+                        let powers = response.data.feed.entry.filter(x => x.gs$cell.col === "2").map(x => x.gs$cell);
+                        names.forEach(x => {
+                            this.dictionary[x.$t] = parseFloat(powers.find(y => y.row === x.row).numericValue);
+                            this.source.push({
+                                'destination': x.$t,
+                                'power': this.dictionary[x.$t]
+                            });
+                        });
+                        // console.log(this.source);
+                        // console.log(this.dictionary);
+                        this.target.destination = this.source[0].destination;
+                        this.target.power = this.source[0].power;
+                        this.target.reducedPower = Math.round(this.target.power * (1 - this.reducing / 100.0 - (this.isValuePack ? 10.0 : 0.0) / 100));
+                    });
+            },
+            methods: {
+                selectDestination: function (obj, index) {
+                    this.target.destination = obj.destination;
+                    this.target.power = obj.power;
+                    switch (index) {
+                        case 0:
+                            // 1~5
+                            this.target.times = 0;
+                            break;
+                        case 1:
+                            // 4幣
+                            this.target.times = 4;
+                            break;
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                        case 6:
+                        case 7:
+                            // 瓦倫島
+                            this.target.times = 1;
+                            break;
+                        case 8:
+                            // 大洋6,8,9
+                            this.target.times = 3;
+                            break;
+                        case 9:
+                            // 其他大洋
+                            this.target.times = 1;
+                            break;
+                        default:
+                            this.target.times = 1;
+                            break;
+                    }
+                },
+                add: function (num = 1) {
+                    this.target.times = this.target.times || 0;
+                    this.target.times += parseInt(num);
+                    
+                },
+                addTarget: function () {
+                    this.target.power = this.target.power || 0;
+                    this.target.reducedPower = this.target.reducedPower || 0;
+                    this.target.times = this.target.times || 0;
+                    this.targets.push(_.cloneDeep(this.target));
+                    // this.targets.splice(0, 0, _.cloneDeep(this.target));
+                    // this.target.times = 0;
+                },
+                deleteTarget: function (index) {
+                    this.targets.splice(index, 1);
+                },
+                deleteAll: function () {
+                    this.targets.splice(0, this.targets.length);
+                },
+                format: function (num) {
+                    return accounting.formatNumber(num);
+                }
+            },
+            computed: {
+                totalReducing: {
+                    get() {
+                        // let r = this.reducing / 100.0;
+                        // let v = (this.isValuePack ? 10.0 : 0.0) / 100.0;
+                        // let ret = 1.0 - r - v;
+                        // // this.target.reducedPower = Math.round(this.target.power * ret);
+                        // return ret;
+                        let ret = Math.round(this.target.power * (1.0 - this.reducing / 100.0 - (this.isValuePack ? 10.0 : 0.0) / 100.0));
+                        this.target.reducedPower = ret;
+                        return ret;
+                    },
+                    set(newValue) {
+                        this.target.reducedPower = newValue;
+                    }
+                },
+                totalPower: function () {
+                    return this.targets.reduce((accumulator, current) => {
+                        return accumulator + (current.reducedPower * current.times);
+                    }, 0);
+                },
+                totalColor: function () {
+                    return {
+                        'color': this.totalPower > 1000000 ? '#ff2266' : '#008cff'
+                    };
+                }
+            }
+        })
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
