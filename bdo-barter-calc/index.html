@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>BDO - 交涉力計算機v1.0</title>
+    <title>BDO - 交涉力計算機v2.0</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -170,9 +170,7 @@
             transition: all .4s;
         }
 
-        .table-responsive {
-        }
-        .custom-table-width{
+        .custom-table-width {
             overflow-x: auto;
         }
     </style>
@@ -258,7 +256,8 @@
                                     <!-- 清除次數按鈕 -->
                                     <div class="clear" @click="target.times=0">&times;</div>
                                     <input type="number" id="times" class="form-control text-center"
-                                        v-model="target.times" style="max-width: 130px; min-width: 130px;">
+                                        v-model="target.times" style="max-width: 130px; min-width: 130px;"
+                                        @focus="$event.target.select()">
                                 </div>
                                 <!-- 次數按鈕 -->
                                 <div class="col-12 d-inline-flex flex-nowrap justify-content-center">
@@ -288,7 +287,8 @@
                         <span class="h3" :style="totalColor">{{format(totalPower)}}</span>
                     </div>
                 </div>
-                <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4 text-center mb-3 table-responsive-sm">
+                <div
+                    class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4 text-center mb-3 table-responsive-sm">
                     <transition name="fade">
                         <table v-show="targets.length" class="table table-dark table-hover">
                             <thead>
@@ -307,7 +307,12 @@
                                 <tr v-for="(item, index) in targets" :key="index" style="font-size: small;">
                                     <td class="text-nowrap">{{item.destination}}</td>
                                     <td class="text-nowrap">{{format(item.reducedPower)}}</td>
-                                    <td class="text-nowrap">{{format(item.times)}}</td>
+                                    <td class="text-nowrap" :style="tdWidth">
+                                        <input v-if="isEdit==index" type="number" @blur="isEdit=-1" :id="'times'+index"
+                                            v-model="item.times" class="text-center border-0"
+                                            style="width: 80%; max-width: 40px;" @focus="$event.target.select()">
+                                        <span v-else @click="isEdit=index">{{item.times}}</span>
+                                    </td>
                                     <td class="text-nowrap">{{format(item.times*item.reducedPower)}}</td>
                                     <td class="text-right">
                                         <button @click="deleteTarget(index)"
@@ -340,11 +345,13 @@
                     'destination': '',
                     'reducedPower': '',
                     'power': '',
-                    'times': 0
+                    'times': 0,
+                    'isEdit': false
                 },
                 targets: [],
                 source: [],
-                dictionary: {}
+                dictionary: {},
+                isEdit: -1
             },
             mounted() {
                 axios.get('https://spreadsheets.google.com/feeds/cells/144CE28gj9di95tqLR4NPVg5cl6O4PqUeyhH0LFNFXSE/1/public/values?alt=json')
@@ -372,6 +379,7 @@
                 selectDestination: function (obj, index) {
                     this.target.destination = obj.destination;
                     this.target.power = obj.power;
+                    // this.target.times = 0;
                     switch (index) {
                         case 0:
                             // 1~5
@@ -392,29 +400,33 @@
                             break;
                         case 8:
                             // 大洋6,8,9
-                            this.target.times = 3;
+                            this.target.times = 0;
                             break;
                         case 9:
                             // 其他大洋
-                            this.target.times = 1;
+                            this.target.times = 0;
                             break;
                         default:
-                            this.target.times = 1;
+                            this.target.times = 0;
                             break;
                     }
                 },
                 add: function (num = 1) {
                     this.target.times = this.target.times || 0;
                     this.target.times += parseInt(num);
-                    
+
                 },
                 addTarget: function () {
+                    if (this.target.times === 0) {
+                        document.getElementById("times").focus();
+                        return;
+                    }
                     this.target.power = this.target.power || 0;
                     this.target.reducedPower = this.target.reducedPower || 0;
                     this.target.times = this.target.times || 0;
                     this.targets.push(_.cloneDeep(this.target));
                     // this.targets.splice(0, 0, _.cloneDeep(this.target));
-                    // this.target.times = 0;
+                    this.target.times = 0;
                 },
                 deleteTarget: function (index) {
                     this.targets.splice(index, 1);
@@ -429,11 +441,6 @@
             computed: {
                 totalReducing: {
                     get() {
-                        // let r = this.reducing / 100.0;
-                        // let v = (this.isValuePack ? 10.0 : 0.0) / 100.0;
-                        // let ret = 1.0 - r - v;
-                        // // this.target.reducedPower = Math.round(this.target.power * ret);
-                        // return ret;
                         let ret = Math.round(this.target.power * (1.0 - this.reducing / 100.0 - (this.isValuePack ? 10.0 : 0.0) / 100.0));
                         this.target.reducedPower = ret;
                         return ret;
@@ -451,8 +458,29 @@
                     return {
                         'color': this.totalPower > 1000000 ? '#ff2266' : '#008cff'
                     };
+                },
+                tdWidth: function () {
+                    return {
+                        'padding-left': this.isEdit > -1 ? 0 : '12px',
+                        'padding-right': this.isEdit > -1 ? 0 : '12px'
+                    }
                 }
-            }
+            },
+            watch: {
+                isEdit: function (newValue, oldValue) {
+                    console.log(newValue, oldValue)
+                    if (newValue > -1) {
+                        let id = "times" + newValue;
+                        console.log(id);
+                        setTimeout(() => {
+                            document.getElementById(id).focus();
+
+                            let inputEl = document.getElementById(id);
+                            console.log(inputEl)
+                        }, 100);
+                    }
+                }
+            },
         })
     </script>
     <!-- Optional JavaScript -->
